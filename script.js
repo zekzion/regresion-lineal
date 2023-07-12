@@ -160,21 +160,32 @@ buttonProcesar.addEventListener("click", function () {
 
     let yEstimado = parseFloat(calcularModeloEstimado(b0, b1, xPrueba).toFixed(2));
 
-    document.getElementById("valorXPrueba").innerText = xPrueba;
-    document.getElementById("valorXPrueba1").innerText = xPrueba;
+
+    // seleccionar todos los elementos con la clase xValorPrueba
+    let xPruebaElements = document.getElementsByClassName("valorXPrueba");
+
+    // dar el mismo valor a todos
+    for (let i = 0; i < xPruebaElements.length; i++) {
+        xPruebaElements[i].textContent = xPrueba;
+    }
+
+    document.getElementById("nroDatos").innerText = n;
+
     document.getElementById("alfaR").innerText = alfa;
     document.getElementById("yEstimado").innerText = yEstimado;
 
     // para el campo T(alfa, gl)
     let p = 1 - alfa / 2;
     let gl = n - 2;
+    // calculando la distribucion T-Student con gl grados de libertad y probabilidad p
     let distrT = parseFloat(calculatT(gl, p));
 
+    // mostrar la probabilidad p, grados de libertad gl y la distribucion T-Student
     document.getElementById("p").innerText = p;
     document.getElementById("gradoLibertad").innerText = gl;
     document.getElementById("distrT").innerText = distrT;
 
-    // calculo del cme
+    // calculo del cme (Cuadrados Medios del Error)
     let mediaX = parseFloat(jStat.mean(arrayX));
     let mediaY = parseFloat(jStat.mean(arrayY));
 
@@ -182,14 +193,23 @@ buttonProcesar.addEventListener("click", function () {
     let cmeC = parseFloat(calcularCME(n, sumaYCuadrado, mediaY, mediaX, b1, sumaXY));
     let sc = parseFloat(calcularSC(n, sumaXCuadrado, mediaX));
 
-    // calculando intervalo inferior
-    let inferior = yEstimado + distrT * Math.sqrt(cmeC*(1+(1/n)+ (xPrueba-mediaX)**2/sc));
-    let superior = yEstimado - distrT * Math.sqrt(cmeC*(1+(1/n)+ (xPrueba-mediaX)**2/sc));
+    // mostrando CME y SC(X)
+    document.getElementById("cme").innerText = cmeC;
+    document.getElementById("scx").innerText = sc;
 
-    document.getElementById("intInferior").innerText = superior.toFixed(3);
-    document.getElementById("intSuperior").innerText = inferior.toFixed(3);
+    // calculando intervalo de Prediccion izquierdo y derecho
+    let inferiorP = parseFloat(calcularInterPred(n, yEstimado, distrT, cmeC, sc, xPrueba, mediaX));
+    let superiorP = parseFloat(calcularInterPred(n, yEstimado, distrT * -1, cmeC, sc, xPrueba, mediaX));
 
+    document.getElementById("intInferiorP").innerText = superiorP;
+    document.getElementById("intSuperiorP").innerText = inferiorP;
 
+    // calculando intervalo de Confianza izquierdo y derecho
+    let inferiorC = parseFloat(calcularInterCon(n, yEstimado, distrT, cmeC, sc, xPrueba, mediaX));
+    let superiorC = parseFloat(calcularInterCon(n, yEstimado, distrT * - 1, cmeC, sc, xPrueba, mediaX));
+
+    document.getElementById("intInferiorC").innerText = superiorC;
+    document.getElementById("intSuperiorC").innerText = inferiorC;
 });
 
 
@@ -217,7 +237,7 @@ function sumarArray(array) {
 
 // calcular el valor Y de modelo estimado para un x dado
 function calcularModeloEstimado(b0, b1, x) {
-    return  b0 + (b1 * x);
+    return b0 + (b1 * x);
 }
 
 // suma de cuadrados medios del error
@@ -237,4 +257,15 @@ function calcularSC(n, sumaXCuadrado, promX) {
 function calculatT(gl, alfa) {
     let distT = jStat.studentt.inv(alfa, gl);
     return distT.toFixed(3);
+}
+
+
+function calcularInterPred(n, yEst, disT, cme, sc, xPrueba, xMedia) {
+    let ip = yEst + disT * Math.sqrt(cme * (1 + (1 / n) + (xPrueba - xMedia) ** 2 / sc));
+    return ip.toFixed(3);
+}
+
+function calcularInterCon(n, yEst, disT, cme, sc, xPrueba, xMedia) {
+    let ic = yEst + disT * Math.sqrt(cme * ((1 / n) + (xPrueba - xMedia) ** 2 / sc));
+    return ic.toFixed(3);
 }

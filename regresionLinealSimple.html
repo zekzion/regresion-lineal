@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>S14 Regresion Lineal Simple</title>
+    <title>Regresión Lineal R</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <style>
         .figura {
@@ -15,8 +15,25 @@
 
 </head>
 <body>
-
+<nav class="navbar navbar-dark navbar-expand-md bg-dark py-3">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html"><span>ESTINF</span></a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-3">
+            <span class="visually-hidden">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navcol-3" class="collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">Regresión Lineal R</a></li>
+                <li class="nav-item"><a class="nav-link" href="coef-correl-determ.html">Correlación y Determinación</a></li>
+                <li class="nav-item"><a class="nav-link" href="analisis-varianza.html">Análisis de la Varianza</a></li>
+                <li class="nav-item"><a class="nav-link" href="reg-lineal-multiple.html">Regresión Lineal Múltiple</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5 mb-5">
+
     <div class="row mb-3 d-flex justify-content-center">
         <div class="col-lg-6">
             <h1 class="fw-bold text-center mb-5">Regresion Lineal - 1</h1>
@@ -31,7 +48,7 @@
                     <input type="text" class="form-control" name="datosY" id="datosY">
                 </div>
                 <div class="mb-3">
-                    <label for="xPrueba" class="form-label">Valor \(x\) de prueba para el model estimado</label>
+                    <label for="xPrueba" class="form-label">Valor \(x_0\) de prueba para el model estimado</label>
                     <input type="text" class="form-control" name="xPrueba" id="xPrueba">
                 </div>
                 <div class="mb-3">
@@ -96,57 +113,66 @@
         </div>
     </div>
 <!--    Parte para agregar los intervalos de prediccion y confianza-->
-    <div class="row">
-        <div class="col mb-3 mt-5">
-            <h1 class="text-center fw-semibold fs-4 text-dark">Intervalos</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <h1 class="fs-5 text-dark">Intervalos de Prediccion</h1>
-            <table id="intervaloPrediccion" class="table table-responsive table-hover">
-                <thead class="table-dark">
+    <div class="row mt-5">
+        <h1 class="text-center fw-semibold fs-4 text-dark">Datos para el Calculo de Intervalos</h1>
+        <div class="col-lg-6 mt-5">
+
+            <table id="intervalo" class="table border table-responsive table-hover">
+                <tbody>
                 <tr>
-                    <th>Nro</th>
-                    <th>Y</th>
-                    <th>X</th>
-                    <th>X<sup>2</sup></th>
-                    <th>Y<sup>2</sup></th>
-                    <th>XY</th>
+                    <th class="table-dark">\(n\)</th>
+                    <td><span id="nroDatos"></span></td>
                 </tr>
-                </thead>
-                <tbody id="res"></tbody>
+                <tr>
+                    <th class="table-dark w-50">\(x_0\)</th>
+                    <td class="valorXPrueba"></td>
+                </tr>
+                <tr>
+                    <th class="table-dark" scope="col">Nivel de Significancia (\( \alpha \))</th>
+                    <td id="alfaR"></td>
+                </tr>
+                <tr>
+                    <th class="table-dark">Valor \(Y\) para \(x_0=\) <span class="valorXPrueba"></span></th>
+                    <td><span id="yEstimado"></span></td>
+                </tr>
+                <tr>
+                    <th class="table-dark">Valor \(T\)(<span id="p"></span>; <span id="gradoLibertad"></span>)</th>
+                    <td><span id="distrT"></span></td>
+                </tr>
+                <tr>
+                    <th class="table-dark">\(CME\)</th>
+                    <td><span id="cme"></span></td>
+                </tr>
+                <tr>
+                    <th class="table-dark">\(SC(X)\)</th>
+                    <td><span id="scx"></span></td>
+                </tr>
+                </tbody>
             </table>
         </div>
-        <div class="col-lg-6">
-            <h1 class="fs-5 text-dark">Intervalos de Prediccion</h1>
-            <table id="intervaloConfianza" class="table table-responsive table-hover">
+        <div class="col-lg-6 mt-5">
+            <table class="table table-sm border table-hover table-responsive text-center">
+                <thead>
+                <tr>
+                    <th class="text-center table-dark" colspan="2">Intervalos</th>
+                </tr>
+                <tr>
+                    <th class="table-primary">Intervalos de Prediccion</th>
+                    <th class="table-primary">Intervalos de Confianza</th>
+                </tr>
+                </thead>
                 <tbody>
-                    <tr>
-                        <th class="table-dark w-50">\(x\)</th>
-                        <td id="valorXPrueba1"></td>
-                    </tr>
-                    <tr>
-                        <th class="table-dark">Nivel de Significancia (\( \alpha \))</span></th>
-                        <td id="alfaR"></td>
-                    </tr>
-                    <tr>
-                        <th class="table-dark">Valor Y para x = <span id="valorXPrueba"></span></th>
-                        <td><span id="yEstimado"></span></td>
-                    </tr>
-                    <tr>
-                        <th class="table-dark">Valor T(<span id="p"></span>; <span id="gradoLibertad"></span>)</th>
-                        <td><span id="distrT"></span></td>
-                    </tr>
-                    <tr>
-                        <th class="table-dark">Intervalo</th>
-                        <td><span id="intInferior"></span>< IP  <<span id="intSuperior"></span></td>
-                    </tr>
+                <tr>
+                    <td><span id="intInferiorP"></span>< \(IP\)  <<span id="intSuperiorP"></span></td>
+                    <td><span id="intInferiorC"></span>< \(IC\)  <<span id="intSuperiorC"></span></td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <!--    Parte para agregar los intervalos de prediccion y confianza-->
+    <!--    finlos intervalos de prediccion y confianza-->
+
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
