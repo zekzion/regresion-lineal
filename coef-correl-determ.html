@@ -27,8 +27,126 @@
     </div>
 </nav>
 
+<div class="container mt-5 mb-5">
+
+    <div class="row mb-3 d-flex justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="fw-bold text-center mb-5">Coeficientes de Correlacion y Determinacion</h1>
+            <p class="fw-bold">Ingesar los datos separados por comas.</p>
+            <div class="formulario border p-3 rounded-2 shadow ">
+                <div class="mb-3">
+                    <label for="datosX" class="form-label">Datos X</label>
+                    <input type="text" class="form-control" name="datosX" id="datosX">
+                </div>
+                <div class="mb-3">
+                    <label for="datosY" class="form-label">Datos Y</label>
+                    <input type="text" class="form-control" name="datosY" id="datosY">
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary p-auto" id="btn-calcular">Calcular</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Coeficiente de Correlacion r</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <table id="tablaResultado" class="table table-responsive table-hover border">
+                <thead class="table-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>Y</th>
+                    <th>X</th>
+                    <th>X<sup>2</sup></th>
+                    <th>Y<sup>2</sup></th>
+                    <th>XY</th>
+                </tr>
+                </thead>
+                <tbody id="resultados-corre"></tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <table class="table table-responsive table-hover border">
+                <tbody>
+                <tr>
+                    <th class="table-dark w-50 p-0">\[r\]</th>
+                    <td id="valor-r"></td>
+                </tr>
+                <tr>
+                    <th class="table-dark"><span class="acento-circunflejo">Limites</span></th>
+                    <td id="intervalo-r"></td>
+                </tr>
+                <tr>
+                    <th class="table-dark">Relacion Y-X</th>
+                    <td id="relacion-r"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Coeficiente de determinacion R<sup>2</sup></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <table id="" class="table table-responsive table-hover border text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nro</th>
+                        <th class="p-0">\[Y\]</th>
+                        <th class="p-0">\[X\]</th>
+                        <th class="p-0">\(\widehat{Y}=\)<span id="modeloEstimado"></span>\(X\)</th>
+                        <th class="p-0">\[(SCR=\widehat{Y}-\bar{Y})^{2}\]</th>
+                        <th class="p-0">\[(SCE=Y-\widehat{Y})^{2}\]</th>
+                    </tr>
+                </thead>
+                <tbody id="resultados-deter">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <table class="table table-responsive table-hover border">
+                <tbody>
+                <tr>
+                    <th class="table-dark p-0">\[\bar{Y}\]</th>
+                    <td id="mediaY"></td>
+                </tr>
+                <tr>
+                    <th class="table-dark p-0">\[R^2\]</th>
+                    <td id="valor-R2"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!--<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->
+<script src="tex-mml-chtml.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="script2.js"></script>
+<script src="jstat.min.js"></script>
+<script src="math.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js" integrity="sha512-ap888g/h47w/Rp6mra1vA5NJtdPZJRxOuF/x7jkrL2NdRB8XrKwXIt/PMvre+oMPUdYt+6NNDjwbdwl/PkYXrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.min.js" integrity="sha512-o7f74CDh7ECVuP3Rzk5Czgx5HDGc0gSoMGmgL3nDIgyn80AH+Py+TwPTsrhueuifiVdyTezC2lRuOeS2wkW6vg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </body>
 </html>
