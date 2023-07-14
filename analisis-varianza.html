@@ -31,7 +31,7 @@
 
     <div class="row mb-3 d-flex justify-content-center">
         <div class="col-lg-6">
-            <h1 class="fw-bold text-center mb-5">Coeficientes de Correlacion y Determinacion</h1>
+            <h1 class="fw-bold text-center mb-5">Analisis de la Varianza</h1>
             <p class="fw-bold">Ingesar los datos separados por comas.</p>
             <div class="formulario border p-3 rounded-2 shadow ">
                 <div class="mb-3">
@@ -42,11 +42,160 @@
                     <label for="datosY" class="form-label">Datos Y</label>
                     <input type="text" class="form-control" name="datosY" id="datosY">
                 </div>
+                <div class="mb-3">
+                    <label for="alfa" class="form-label">Nivel de Significancia (\( \alpha \))</label>
+                    <input type="text" class="form-control" name="alfa" id="alfa">
+                </div>
                 <div class="text-center">
                     <button class="btn btn-primary p-auto" id="btn-calcular">Calcular</button>
                 </div>
 
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Prueba de Hipotesis</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-responsive table-hover border">
+                <tbody>
+                    <tr>
+                        <th class="table-dark w-25" rowspan="2">Hipotesis</th>
+                        <td>H<sub>0</sub> : B<sub>1</sub> = 0 (NO hay relacion lineal entre X e Y)</td>
+                    </tr>
+                    <tr>
+                        <td>H<sub>1</sub> : B<sub>1</sub> ≠  0 (SI hay relacion lineal entre X e Y)</td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark w-25" rowspan="2">Nivel de Significancia (\( \alpha \))</th>
+                        <td>\( \alpha=\) <span id="signi"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Calculo del Estadistico de Prueba F<sub>c</sub></h1>
+            <h4 class="text-center">Tabla de CMR y SC</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table id="tablaResultado" class="table table-responsive table-hover border">
+                <thead class="table-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th>Y</th>
+                    <th>X</th>
+                    <th>X<sup>2</sup></th>
+                    <th>Y<sup>2</sup></th>
+                    <th>XY</th>
+                </tr>
+                </thead>
+                <tbody id="resultados-corre"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Tabla de datos</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <table id="" class="table table-responsive table-hover border text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th>Nro</th>
+                    <th class="p-0">\[Y\]</th>
+                    <th class="p-0">\[X\]</th>
+                    <th class="p-0">\(\widehat{Y}=\)<span id="modeloEstimado"></span>\(X\)</th>
+                    <th class="p-0">\[(SCR=\widehat{Y}-\bar{Y})^{2}\]</th>
+                    <th class="p-0">\[(SCE=Y-\widehat{Y})^{2}\]</th>
+                </tr>
+                </thead>
+                <tbody id="resultados-deter">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+            <table class="table table-responsive table-hover border">
+                <tbody>
+                    <tr>
+                        <th class="table-dark p-0">\[\bar{Y}\]</th>
+                        <td id="mediaY"></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark p-0">\[SCR\]</th>
+                        <td id="scr"></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark p-0">\[SCE\]</th>
+                        <td id="sce"></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark p-0">\[SCT\]</th>
+                        <td id="sct"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mb-3 mt-5">
+            <h1 class="text-center fw-semibold fs-4 text-dark">Cuadro ANOVA</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table id="#" class="table table-responsive table-hover border text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th class="w-25">Fuende de Variacion</th>
+                    <th>GL</th>
+                    <th>SC</th>
+                    <th>CM</th>
+                    <th>F<sub>c</sub></th>
+                    <th>F<sub>Tab</sub></th>
+                </tr>
+                </thead>
+                <tbody id="resultados-anova">
+                    <tr>
+                        <th class="table-dark">Regresion</th>
+                        <td id="gl-regresion"></td>
+                        <td id="scr-r"></td>
+                        <td id="cm-r"></td>
+                        <td id="est-fisher-c"></td>
+                        <td id="est-fisher-t"></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark">Residual (Error)</th>
+                        <td id="gl-error"></td>
+                        <td id="sce-error"></td>
+                        <td id="cm-error"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark">Total</th>
+                        <td id="gl-total"></td>
+                        <td id="sct-total"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="table-dark">Decision</th>
+                        <td id="decision" colspan="5"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -64,7 +213,7 @@
 <script src="tex-mml-chtml.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="script3.js"></script>
+<script type="module" src="script3.js"></script>
 <script src="jstat.min.js"></script>
 <script src="math.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.2/math.js" integrity="sha512-ap888g/h47w/Rp6mra1vA5NJtdPZJRxOuF/x7jkrL2NdRB8XrKwXIt/PMvre+oMPUdYt+6NNDjwbdwl/PkYXrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

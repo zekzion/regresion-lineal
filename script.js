@@ -82,10 +82,10 @@ buttonProcesar.addEventListener("click", function () {
         // calcular valores
         let x = arrayX[i];
         let y = arrayY[i];
-        let yCuadrado = y ** 2;
-        let xCuadrado = x ** 2;
+        let yCuadrado = parseFloat((y ** 2).toFixed(2));
+        let xCuadrado = parseFloat((x ** 2).toFixed(2));
 
-        let xy = x * y;
+        let xy = parseFloat((x * y).toFixed(2));
 
         // mostrar los valores en la fila
         fila.innerHTML = `
@@ -137,19 +137,21 @@ buttonProcesar.addEventListener("click", function () {
 
     // calculo del coeficiente b1
     let b1 = (n * sumaXY - sumaX * sumaY) / (n * sumaXCuadrado - sumaX * sumaX);
-    b1 = b1.toFixed(2); // redondear a dos decimales
+    let b = parseFloat(b1.toFixed(2));
+
     // calculo del coeficiente b0
-    let b0 = (sumaY - b1 * sumaX) / n;
-    b0 = parseFloat(b0.toFixed(2)); // redondeo a dos decimales
+    let b0 = (sumaY - b * sumaX) / n;
 
     // mostrar los valores de los coeficientes
-    beta0.innerText = `${b0}`;
-    beta1.innerText = `${b1}`;
+    let a = parseFloat(b0.toFixed(2));
+
+    beta0.innerText = `${a}`;
+    beta1.innerText = `${b}`;
 
     if (b1 < 0) {
-        modeloEstimado.innerHTML = `${b0} ${b1}`;
+        modeloEstimado.innerHTML = `${a} ${b}`;
     } else {
-        modeloEstimado.innerHTML = `${b0} + ${b1}`;
+        modeloEstimado.innerHTML = `${a} + ${b}`;
     }
 
     // calculo de invervalo de confianza
@@ -158,7 +160,7 @@ buttonProcesar.addEventListener("click", function () {
     xPrueba = parseFloat(xPrueba);
     alfa = parseFloat(alfa);
 
-    let yEstimado = parseFloat(calcularModeloEstimado(b0, b1, xPrueba).toFixed(2));
+    let yEstimado = parseFloat(calcularModeloEstimado(a, b, xPrueba));
 
 
     // seleccionar todos los elementos con la clase xValorPrueba
@@ -172,7 +174,7 @@ buttonProcesar.addEventListener("click", function () {
     document.getElementById("nroDatos").innerText = n;
 
     document.getElementById("alfaR").innerText = alfa;
-    document.getElementById("yEstimado").innerText = yEstimado;
+    document.getElementById("yEstimado").innerText = `${yEstimado.toFixed(2)}`;
 
     // para el campo T(alfa, gl)
     let p = 1 - alfa / 2;
@@ -190,7 +192,7 @@ buttonProcesar.addEventListener("click", function () {
     let mediaY = parseFloat(jStat.mean(arrayY));
 
     // calculando CME y SC(X)
-    let cmeC = parseFloat(calcularCME(n, sumaYCuadrado, mediaY, mediaX, b1, sumaXY));
+    let cmeC = parseFloat(calcularCME(n, sumaYCuadrado, mediaY, mediaX, b, sumaXY));
     let sc = parseFloat(calcularSC(n, sumaXCuadrado, mediaX));
 
     // mostrando CME y SC(X)
